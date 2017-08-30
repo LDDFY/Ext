@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>ExtToolBar</title>
+		<link rel="stylesheet" type="text/css" href="../ext/build/classic/theme-neptune/resources/theme-neptune-all.css" />
+		<!-- 引入ExtJs核心Js -->
+		<script type="text/javascript" src="../ext/ext-bootstrap.js"></script>
+		<script type="text/javascript" src="../ext/build/ext-all.js"></script>
+		<script type="text/javascript" src="../ext/build/classic/locale/locale-zh_CN.js"></script>
+	</head>
+	<body>
+		<script type="text/javascript">
+			function simpleToolBar() {
+				var toolBar = Ext.create('Ext.toolbar.Toolbar', {
+					renderTo: 'toolbar',
+					width: 300
+				});
+
+				var config = [{
+					text: '新建',
+					handler: onButtonClick,
+					iconCls: 'newIcon'
+				}, {
+					text: '打开',
+					handler: onButtonClick,
+					iconCls: 'openIcon'
+				}, {
+					text: '保存',
+					handler: onButtonClick,
+					iconCls: 'saveIcon'
+				}];
+
+				toolBar.add(config);
+
+				function onButtonClick(btn) {
+					Ext.MessageBox.alert('title', btn.text);
+				}
+			}
+
+			function mediumToolBar() {
+				var toolBar = Ext.create('Ext.toolbar.Toolbar', {
+					renderTo: 'toolbar',
+					width: 500
+				});
+
+				toolBar.add({
+						text: '新建'
+					}, {
+						text: '打开'
+					}, {
+						text: '编辑'
+					}, {
+						text: '保存'
+					},
+					'-', {
+						xtype: 'textfield',
+						hideLabel: true,
+						width: 150
+					},
+					'->',
+					'<a href=#>超链接</a>', {
+						xtype: 'tbspacer',
+						width: 50
+					},
+					'静态文本'
+				);
+			}
+
+			Ext.onReady(function() {
+				//simpleToolBar();
+				mediumToolBar();
+			});
+		</script>
+
+		<div id="toolbar"></div>
+	</body>
+
+</html>

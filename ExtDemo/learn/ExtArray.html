@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../ext/build/classic/theme-neptune/resources/theme-neptune-all.css" />
+		<!-- 引入ExtJs核心Js -->
+		<script type="text/javascript" src="../ext/ext-bootstrap.js"></script>
+		<script type="text/javascript" src="../ext/build/ext-all.js"></script>
+		<script type="text/javascript" src="../ext/build/classic/locale/locale-zh_CN.js"></script>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			Ext.onReady(function() {
+				var array = new Array('A', 'B', '', 'C', 'D', '', 'E', 'F');
+				console.log("array:" + array);
+
+				//过滤数组中的空元素
+				array = Ext.Array.clean(array);
+				console.log("arrayClean:" + array);
+
+				//克隆数组中的元素
+				var array2 = Ext.Array.clone(array);
+				console.log("arrayClone:" + array2);
+
+				//判断指定数组中是否包含某元素
+				var flag = Ext.Array.contains(array, 'G');
+				console.log("res:" + flag);
+
+				//获取两个数组间的差异，即存在数组A而不存在数组B中的元素并形成一个新的数组
+				var A = new Array('A', 'B', 'C', 'E');
+				var B = new Array('C', 'D', 'E');
+				var C = Ext.Array.difference(A, B);
+				console.log(C);
+
+				//遍历数组元素执行指定函数如果函数返回false则终止执行
+				Ext.Array.every(array, function(item) {return true/false;}, this);
+
+				//获取指定函数过滤后返回true的元素组成的新数组
+				var filterArr = Ext.Array.filter(array, function(item) {return false/false;}, this);
+				console.log("筛选后：" + filterArr);
+
+				//将多维数组平铺为一维数组
+				var tArray = [
+					["0-1", "0-2"],
+					["1-1", "1-2"],
+					["2-1", "2-2"]
+				];
+				tArray = Ext.Array.flatten(tArray);
+				console.log(tArray);
+
+				//迭代数组元素在每个元素上调用回调函数，该方法只是简单的委托Arrya.prototype.forEach执行，
+				//不可以在回调函数中返回false进行终止，效率要略高于each
+				Ext.Array.forEach(array, function(item) {}, this);
+
+				//转换给定值为数组,如果穿入值为空或者undefined则返回空数组 
+				//如果本身为数组则返回自身，如果为可迭代值则返回数组拷贝，如果为单值则返回包含单值的数组
+				//第二参数为true表示返回该数组的克隆，默认为false
+				var arr = Ext.Array.from('1', false);
+				console.log(arr);
+				arr = Ext.Array.from(null, false);
+				console.log(arr);
+				arr = Ext.Array.from(new Array(1, 2, 3), false);
+				console.log(arr);
+				//获取指定值在数组中的位置
+				var index = Ext.Array.indexOf(array, 'B');
+				console.log(index);
+				//合并多个数组中的相同值到唯一的数组中
+				var mergeArr = Ext.Array.intersect(new Array(1, 2, 3), new Array(2, 3, 4, 5));
+				console.log(mergeArr);
+
+				//遍历数组并在每个元素上执行回调函数最后返回由回调函数执行结果组成的数组
+				var res = Ext.Array.map(new Array(1, 2, 3, 4), function(item) {return item;}, this);
+				//返回数组的平均值
+				Ext.Array.mean(arr);
+				//返回数组的最大值
+				Ext.Array.max(array);
+				//返回数组的最小值
+				Ext.Array.min(array);
+				//合并多个数组
+				Ext.Array.merge(array, arr2...);
+				//移除数组中的元素
+				//Ext.Array.remove(arr,item);
+				//遍历原数组并在每个元素上执行回调函数回调函数返回为真时则立即返回否则但会false
+				//Ext.Array.some(arr, function(item) {}, this);
+				//数组排序
+				//Ext.Array.sort(arr, sortFn(item) {});
+				//转换可迭代对象为数组
+				//Ext.Array.toArray(arr);
+				//获取具有唯一元素的新数组
+				//Ext.Array.unique(arr);
+			});
+		</script>
+	</body>
+
+</html>

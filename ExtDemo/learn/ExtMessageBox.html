@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>MessageBox</title>
+		<link rel="stylesheet" type="text/css" href="../ext/build/classic/theme-neptune/resources/theme-neptune-all.css" />
+		<!-- 引入ExtJs核心Js -->
+		<script type="text/javascript" src="../ext/ext-bootstrap.js"></script>
+		<script type="text/javascript" src="../ext/build/ext-all.js"></script>
+		<script type="text/javascript" src="../ext/build/classic/locale/locale-zh_CN.js"></script>
+		<style type="text/css">
+			.custom .x-progres-inner {
+				height: 17px;
+				background: #4E9A06;
+			}
+			.custom .x-progress-bar {
+				height: 15px;
+			/*	background: transparent url()*/
+				border-top: 1px solid red;
+				border-bottom: 1px solid yellow;
+				border-right: 0;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			//更改按钮上显示文字
+			function changeBtnText() {
+				Ext.MessageBox.buttonText.ok = '按钮一';
+				Ext.MessageBox.buttonText.yes = '按钮二';
+				Ext.MessageBox.buttonText.no = '按钮三';
+				Ext.MessageBox.buttonText.cancel = '按钮四';
+				Ext.MessageBox.show({
+					title: '提示',
+					msg: '自定义按钮',
+					modal: true,
+					buttons: Ext.MessageBox.YESNOCANCEL
+				});
+			}
+
+			//动态提示框文字
+			function dynamicShow() {
+				var msgBox = Ext.MessageBox.show({
+					title: '提示',
+					msg: '动态更新文字',
+					modal: true,
+					buttons: Ext.MessageBox.OK,
+					fn: function() {
+						Ext.TaskManager.stop(task);
+					}
+				});
+
+				var task = {
+					run: function() {
+						msgBox.updateText('会动的时间：' + Ext.util.Format.date(new Date(), 'y-m-d g:i:s A'));
+					},
+					interval: 1000
+				}
+				Ext.TaskManager.start(task);
+			}
+
+			//进度条
+			function updateProgess() {
+				var msgBox = Ext.MessageBox.show({
+					title: '提示',
+					msg: '动态更新文字和进度条',
+					modal: true,
+					width: 300,
+					progress: true,
+				});
+				var count = 0;
+				var percentage = 0;
+				var progressText = '';
+				var task = {
+					run: function() {
+						count++;
+						percentage = count / 10;
+						progressText = '当前进度：' + percentage * 100 + '%';
+						msgBox.updateProgress(percentage, progressText + '当前时间：' +
+							Ext.util.Format.date(new Date(), 'y-m-d g:i:s A'));
+						if(count > 10) {
+							Ext.TaskManager.stop(task);
+							msgBox.hide();
+						}
+					},
+					interval: 1000
+				}
+
+				Ext.TaskManager.start(task);
+			}
+
+			//手工模式可更新进度条ProgressBar
+			function handProgressBar() {
+				var progressBar = new Ext.ProgressBar({
+					width: 300,
+					//页面容器id 如div等标签
+					renderTo: 'progressBar',
+				});
+				var count = 0;
+				var percentage = 0;
+				var progressText = '';
+				var task = {
+					run: function() {
+						count++;
+						if(count > 10) {
+							progressBar.hide();
+						}
+						percentage = count / 10;
+						progressText = '当前进度：' + percentage * 100 + '%' + '当前时间：' +
+							Ext.util.Format.date(new Date(), 'y-m-d g:i:s A');
+						progressBar.updateProgress(percentage, progressText, true);
+					},
+					interval: 1000,
+					repeat: 11
+				}
+				Ext.TaskManager.start(task);
+			}
+
+			//自动模式进度条
+			function autoProgressBar() {
+				var progressBar = Ext.create('Ext.ProgressBar', {
+					text: 'working....', //进度条显示文字
+					width: 300, //设置进度条宽度
+					renderTo: 'progressBar'
+				});
+
+				var waitConfig = {
+					duration: 10000, //进度条持续更新十秒钟
+					interval: 1000, //每一秒中更新一次
+					increment: 10, //进度条分十次更新完毕
+					animate: true, //是否显示动画
+					text: 'waiting', //进度条上的文字
+					scope: this, //回调函数执行范围
+					fn: function() {
+						//进度条更新完毕后调用的函数
+						progressBar.hide();
+						Ext.MessageBox.alert('提示', '更新完成');
+					}
+				}
+				progressBar.wait(waitConfig);
+			}
+
+			//自定义样式进度条
+			function customProgressBar() {
+				var progressBar = Ext.create('Ext.ProgressBar', {
+					text: 'working....', //进度条显示文字
+					width: 300, //设置进度条宽度
+					renderTo: 'progressBar',
+					cls: 'custom'
+				});
+				var waitConfig = {
+					duration: 10000, //进度条持续更新十秒钟
+					interval: 1000, //每一秒中更新一次
+					increment: 10, //进度条分十次更新完毕
+					animate: true, //是否显示动画
+					text: 'waiting', //进度条上的文字
+					scope: this, //回调函数执行范围
+					fn: function() {
+						//进度条更新完毕后调用的函数
+						progressBar.hide();
+						Ext.MessageBox.alert('提示', '更新完成');
+					}
+				}
+				progressBar.wait(waitConfig);
+			}
+
+			Ext.onReady(function() {
+				//changeBtnText();
+				//dynamicShow();
+				//updateProgess();
+				//handProgressBar();
+				//autoProgressBar();
+				customProgressBar();
+			});
+		</script>
+		<!-- 进度条渲染位置-->
+		<div id="progressBar" align="center"></div>
+	</body>
+
+</html>

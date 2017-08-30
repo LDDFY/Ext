@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Ext日期方法</title>
+		<link rel="stylesheet" type="text/css" href="../ext/build/classic/theme-neptune/resources/theme-neptune-all.css" />
+		<!-- 引入ExtJs核心Js -->
+		<script type="text/javascript" src="../ext/ext-bootstrap.js"></script>
+		<script type="text/javascript" src="../ext/build/ext-all.js"></script>
+		<script type="text/javascript" src="../ext/build/classic/locale/locale-zh_CN.js"></script>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			Ext.onReady(function() {
+				/*Ext.MessageBox.wait('asccscsc','tip',{
+					text:'ascascsascxxxxc'
+				});*/
+				Ext.MessageBox.show({
+					title:'提示',
+					msg:'ascascsascxxxxc',
+					prompt:true,
+					modal:true,
+					value:'请输入',
+					fn:callBack,
+					buttons:Ext.Msg.YES,
+					icon:Ext.Msg.QUESTION
+				});
+				
+				function callBack(id,msg){
+					Ext.Msg.alert('tip',id+":"+msg);
+				}
+			});
+		</script>
+	</body>
+
+</html>
